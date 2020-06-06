@@ -1,0 +1,266 @@
+ScreenManagement:
+    LoginPage:
+    #MusicPage:
+    MyGrid:
+    ErrorPage:
+    RegisteredPage:
+    RepeatedPage:
+
+<MyGrid>:
+    name: "MyGrid"
+   
+    nameuser: nameuser
+
+
+    GridLayout:
+        cols:1
+        size: root.width , root.height
+        #pos: 100, 100
+
+        BoxLayout:
+            cols:2
+
+            Label:
+                text: "Nombre: "
+
+            TextInput:
+                id: nameuser 
+                multiline:False
+
+
+        BoxLayout:
+            Label:
+                text: " "
+
+        BoxLayout:
+            Label:
+                text: " "
+
+        BoxLayout:
+			Button:
+				text:"Registrar"
+				on_press: root.btn()
+			Button:
+				text:"Regresar"
+                on_press: app.root.current = "login_page"
+
+<LoginPage>:
+    name: "login_page"
+    user: user
+
+    BoxLayout:
+        orientation:'vertical'
+
+        BoxLayout:
+            orientation:'vertical'
+            padding:5
+
+            Image: 
+                source: 'dog.png'
+                #size_hint_x: 0.4
+                #allow_stretch: True
+
+            Label: 
+                text:"Iniciar Sesion en Race Music"
+                font_size:50
+                bold:True
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                text: "Usuario:"
+
+            TextInput:
+                id: user
+                font_size: 50
+                halign: 'center'
+                multiline:False
+
+        BoxLayout:
+
+            Button:
+                text: "Inicio"
+                #on_press: app.root.current="MyGrid"
+                on_press: root.login()
+
+
+            Button:
+                text: "Registro"
+                on_press: app.root.registro()
+
+
+<MusicPage>:
+    name: 'MusicPage'
+    play_pause_button: play_pause
+    play_pause_image: play_pause_image
+    song_spinner:spinner_id
+    #label_cancion:label_cancion
+    username:''
+    #sound: ''
+
+
+    BoxLayout:
+        orientation:'vertical'
+
+
+        BoxLayout:
+
+            Label:
+                id:label_cancion
+                text:root.actual_song
+
+
+            # creating the spinner 
+            Spinner: 
+                # Assigning id  
+                id: spinner_id 
+          
+                # Callback  
+                on_text: 
+                    root.spinner_clicked(spinner_id.text)
+                    root.ids.label_cancion.text= spinner_id.text
+          
+                # initially text on spinner 
+                
+          
+                # total values on spinner 
+                #values: ["Python", "Java", "C++", "C", "C#", "PHP"] 
+
+                values: root.prarr()
+                text: "seleccione una cancion"
+          
+                # declaring size of the spinner 
+                # and the position of it 
+                size_hint: None, None
+                size: 200, 50
+                pos_hint:{'center_x':.5, 'top': 1}
+
+        BoxLayout:
+
+            Button:
+                id:play_pause
+                on_press: root.play()
+                size_hint: .3, .6
+                Image:
+                    id:play_pause_image
+                    source: 'icons/01.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+            Button:
+                #background_normal: '/icons/03.png'
+                on_press: root.stop()
+                size_hint: .3, .6
+                Image:
+                    source: 'icons/03.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+
+            Button:
+                on_press: root.volme()
+                size_hint: .3, .6
+                Image:
+                    source: 'icons/06.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+            Button:
+                on_press: root.volma()
+                size_hint: .3, .6
+                Image:
+                    source: 'icons/07.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+            Button:
+                text:"Regresar"
+                size_hint: .3, .6
+                on_press: 
+                    root.regreso()
+                #app.root.current = "login_page"
+
+
+<ErrorPage>:
+    name: 'ErrorPage'
+    size:700, 10
+
+    GridLayout:
+        cols:1
+        BoxLayout:
+            cols:1
+            orientation:'vertical'
+            Label:
+                text: "hubo un error"
+                font_size: 50
+            Label:
+                text: "Por favor intente Nuevamente"
+                font_size: 50
+
+        BoxLayout:
+            orientation:'vertical'
+            size_hint_y: 0.3
+
+            Button:
+                text: "Reintentar"
+                #on_press: root.btn()
+                on_press: app.root.current="login_page"
+                size:700, 10
+                size_hint_y:0.3
+                background_color: 1.0, 0.0, 0.0, 1.0
+
+<RegisteredPage>:
+    name: 'RegisteredPage'
+    size:700, 10
+
+    GridLayout:
+        cols:1
+        BoxLayout:
+            cols:1
+            orientation:'vertical'
+            Label:
+                text: "operacion exitosa"
+                font_size: 50
+            Label:
+                text: "ahora puede iniciar sesion con su nuevo usuario"
+                font_size: 20
+
+        BoxLayout:
+            orientation:'vertical'
+            size_hint_y: 0.3
+
+            Button:
+                text: "Reintentar"
+                #on_press: root.btn()
+                on_press: app.root.current="login_page"
+                size:700, 10
+                size_hint_y:0.3
+                background_color: 1.0, 0.0, 0.0, 1.0
+
+<RepeatedPage>:
+    name: 'RepeatedPage'
+    size:700, 10
+
+    GridLayout:
+        cols:1
+        BoxLayout:
+            cols:1
+            orientation:'vertical'
+            Label:
+                text: "el usuario que intenta registrar ya existe "
+                font_size: 20
+            Label:
+                text: "intente otra vez"
+                font_size: 20
+
+        BoxLayout:
+            orientation:'vertical'
+            size_hint_y: 0.3
+
+            Button:
+                text: "Reintentar"
+                on_press: app.root.current="login_page"
+                size:700, 10
+                size_hint_y:0.3
+                background_color: 1.0, 0.0, 0.0, 1.0
